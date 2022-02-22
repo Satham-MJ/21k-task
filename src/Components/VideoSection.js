@@ -1,4 +1,5 @@
 import React, { useRef, useState } from "react";
+import VideoRecorder from "react-video-recorder";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faFileVideo,
@@ -8,6 +9,7 @@ import {
 
 const VideoSection = ({ img }) => {
   const [playing, setPlaying] = useState(false);
+  const [videoCmt, setVideoCmt] = useState(false);
   const videoRef = useRef(null);
 
   const onVideoPress = () => {
@@ -18,6 +20,12 @@ const VideoSection = ({ img }) => {
       videoRef.current.play();
       setPlaying(true);
     }
+  };
+
+  const videoComment = () => {
+    setVideoCmt((prev) => {
+      return !prev;
+    });
   };
 
   return (
@@ -33,7 +41,7 @@ const VideoSection = ({ img }) => {
         <h5>Video Title</h5>
       </div>
       <div className="video__acitons">
-        <button>
+        <button onClick={videoComment}>
           <FontAwesomeIcon icon={faFileVideo} />
         </button>
         <button>
@@ -43,6 +51,15 @@ const VideoSection = ({ img }) => {
           <FontAwesomeIcon icon={faFileText} />
         </button>
       </div>
+      {videoCmt && (
+        <VideoRecorder
+          onRecordingComplete={(videoBlob) => {
+            // MediaRecorder.stop();
+            // Do something with the video...
+            console.log("videoBlob", videoBlob);
+          }}
+        />
+      )}
     </div>
   );
 };
